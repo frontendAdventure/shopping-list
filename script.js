@@ -137,11 +137,9 @@ function onClickItem(e){
   removeItem(e.target.parentElement.parentElement)
   }
 
-  if(e.target.tagName = 'LI'){
+  if(e.target.tagName === 'LI'){
       setItemToEdit(e.target);
     }
-    
-  
 }
 
 function setItemToEdit(item){
@@ -193,10 +191,15 @@ function onAddItemSubmit(e) {
   //check for edit mode
   if(isEditMode){
     const itemToEdit = itemList.querySelector('.edit-mode');
-    removeItemFromStorage(itemToEdit.tectContent);
+    removeItemFromStorage(itemToEdit.textContent);
     itemToEdit.classList.remove('edit-mode');
     itemToEdit.remove();
     isEditMode= false;
+  }else{
+    if(checkIfItemExists(newItem)){
+      alert('That item already exists!');
+      return;
+    }
   }
 
   //Create item DOM element
@@ -264,4 +267,11 @@ function displayItems(){
   })
 
   checkUI();
+}
+
+
+function checkIfItemExists(item){
+  const itemsFromStorage = getItemsFromStorage();
+  return itemsFromStorage.includes(item)
+  
 }
